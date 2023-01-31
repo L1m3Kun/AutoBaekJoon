@@ -1,20 +1,21 @@
-
+import sys
 from collections import deque
 
-n, k = map(int, input().split())
-count = n
-num_li = deque([])
-ans_li = []
-for i in range(1, n+1):
-    num_li.append(i)
-
-while count > 0:
-    count -= 1
-    for _ in range(k-1):
-        num_li.append(num_li.popleft())
-    x = num_li.popleft()
-    ans_li.append(x)
-
+N, k = deque(map(int,sys.stdin.readline().strip().split()))
+yoseputh = deque(range(1, N+1))
+result = []
+count = 1
+while True:
+    if len(result) != N:
+        k_idx = yoseputh.popleft()
+        if count % k == 0:
+            result.append(k_idx)
+        else:
+            yoseputh.append(k_idx)
+        count += 1
+    else:
+        break
+# print(result)
 print('<', end='')
-print(*ans_li, sep=', ', end='')
-print('>', end='')
+print(*result, end='',sep= ', ')
+print('>')
