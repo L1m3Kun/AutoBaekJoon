@@ -3,11 +3,9 @@ import sys
 
 N, M = map(int, sys.stdin.readline().strip().split())
 A = set(map(int, sys.stdin.readline().strip().split()))
-B = set(map(int, sys.stdin.readline().strip().split()))
-result = set()
-result.update(A, B)
-for i in B:
-    if i in A:
-        result.discard(i)
-print(len(result))
-
+for i in set(map(int, sys.stdin.readline().strip().split())):
+    if i not in A:
+        A.add(i)
+    else:
+        A.discard(i)
+print(len(A))
