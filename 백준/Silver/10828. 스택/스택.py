@@ -2,10 +2,7 @@ import sys
 stack = []
 for order in range(int(sys.stdin.readline())):
     order = list(sys.stdin.readline().strip().split())
-    # print(order)
-    # print(stack)
     if order[0] == 'push':
-        # print(order[1])
         stack.append(int(order[1]))
     elif order[0] == 'pop':
         try:
