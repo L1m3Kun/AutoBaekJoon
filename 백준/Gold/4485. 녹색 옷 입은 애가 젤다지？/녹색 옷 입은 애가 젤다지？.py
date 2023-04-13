@@ -1,30 +1,29 @@
-#4485 녹색 옷 입은 애가 젤다지?
+# 4485 녹색 옷 입은 애가 젤다지?
 import sys
 from collections import deque
-
+import heapq
 input = sys.stdin.readline
+
 T = 0
+dir = [(0,1),(0,-1),(1,0),(-1,0)]   # 젤ㄷ..아니 링크 방향
+INF = 10 * 125*125
 while True:
-    T += 1
+    T += 1 # test case
     N = int(input())
-    if not N:
+    if not N:   # N이 0이면 멈춰!
         break
-    cave = [list(map(int, input().strip().split())) for _ in range(N)]
-    dir = [(0,1),(0,-1),(1,0),(-1,0)]
-    que = deque([(0,0)])
-    visited = [[0] * N for _ in range(N)]
-    visited[0][0] = cave[0][0]+1
+    cave = [list(map(int, input().strip().split())) for _ in range(N)]  # 도둑놈들
+    que = []
+    heapq.heappush(que,(cave[0][0],0,0))
+    visited = [[INF] * N for _ in range(N)]
     while que:
-        i, j = que.popleft()
+        w, i, j = heapq.heappop(que)
         for di, dj in dir:
             ni, nj = i+di, j+dj
-            if 0<=ni<N and 0<=nj<N: 
-                if not visited[ni][nj]:
-                    que.append((ni,nj))
-                    visited[ni][nj] = visited[i][j] + cave[ni][nj]
-                elif visited[ni][nj] > visited[i][j] + cave[ni][nj]:
-                    visited[ni][nj] = visited[i][j] + cave[ni][nj]
-                    que.append((ni,nj))
-    print(f'Problem {T}: {visited[-1][-1]-1}')
-                
+            if 0<=ni<N and 0<=nj<N:
+                if visited[ni][nj] > w+cave[ni][nj]:
+                    heapq.heappush(que, (w+cave[ni][nj], ni, nj))
+                    visited[ni][nj] = w+cave[ni][nj]
 
+
+    print(f'Problem {T}: {visited[-1][-1]}')
