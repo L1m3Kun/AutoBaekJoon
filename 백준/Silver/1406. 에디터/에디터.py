@@ -8,16 +8,12 @@ stack = []
 def L():
     global str_stack
     # print("L", place)
-    if not str_stack:
-        return
     stack.append(str_stack.pop())
     return
 
 def D():
     global str_stack, stack
     # print("D", place)
-    if not stack:
-        return
     str_stack.append(stack.pop())
     return
 
@@ -40,13 +36,13 @@ def P(character):
 # print("Place is ", place)
 for _ in range(int(input())):
     order = list(input().strip().split())
-    if order[0] == "L":
+    if order[0] == "L" and str_stack:
         L()
-    elif order[0] == "D":
+    elif order[0] == "D" and stack:
         D()
-    elif order[0] == "B":
+    elif order[0] == "B" and str_stack:
         B()
-    else:
+    elif order[0] == "P":
         P(order[1])
     # print("String is", str_stack, "\nstack is", stack)
 # print("".join(string))
