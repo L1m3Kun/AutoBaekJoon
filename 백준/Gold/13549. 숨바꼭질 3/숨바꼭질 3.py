@@ -10,11 +10,11 @@ def solution():
     heapq.heappush(que, (0, N))
     visited = [0] * limit
     visited[N] = 0
-    min_v = limit
     while que:
         cost, now = heapq.heappop(que)
         if now == K:
-            min_v = min(min_v, cost)
+            print(cost)
+            break
         for next in [now-1, now+1, now*2]:
             if 0 <= next < limit and not visited[next]:
                 if next == now * 2:
@@ -23,7 +23,6 @@ def solution():
                 else:
                     heapq.heappush(que, (cost+1, next))
                     visited[next] = 1
-    print(min_v)
     
     return
 
