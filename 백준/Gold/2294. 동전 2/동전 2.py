@@ -9,15 +9,10 @@ def solution():
     dp = [100_001] * (K+1)
     dp[0] = 0
 
-    for coin in coins:
-        for i in range(K+1):
-            if dp[i] != 100_001:
-                cnt = 1
-                while i + coin*cnt <= K:
-                    dp[i+coin*cnt] = min(dp[i+coin*cnt], dp[i]+cnt)
-                    cnt += 1     
-            if coin + i >K:
-                break
+    for i in range(K+1):
+        for coin in coins:
+            if i - coin >= 0:
+                dp[i] = min(dp[i-coin]+1, dp[i])    
 
     if dp[K] == 100_001:
         print(-1)
