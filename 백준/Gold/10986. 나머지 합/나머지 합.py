@@ -7,13 +7,12 @@ input = sys.stdin.readline
 def main():
     N, M = map(int, input().split())
     arr = list(map(int, input().split()))
-    presum = [0] * (N+1)
     remain = defaultdict(int)
     
-    
-    for i in range(1, N+1):
-        presum[i] = (arr[i-1] + presum[i-1]) % M
-        remain[presum[i]] += 1
+    remain[arr[0]%M] += 1
+    for i in range(1, N):
+        arr[i] = arr[i] + arr[i-1]
+        remain[arr[i] % M] += 1
     
     ans = remain[0]
 
