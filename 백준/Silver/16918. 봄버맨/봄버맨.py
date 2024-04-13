@@ -7,6 +7,10 @@ def main():
     R, C, N = map(int, input().split())
     field = [list(input().strip()) for _ in range(R)]
 
+    if not N % 2:
+        for i in range(R):
+            print("O" * C)
+        return 
     def fill_bombs(fields, bombs, now):
         bombs[now+3] = set()
         for i in range(R):
