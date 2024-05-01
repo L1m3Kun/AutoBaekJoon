@@ -7,10 +7,12 @@ def main():
     N = int(input())
     home = [list(map(int, input().split())) for _ in range(N)]
     # [가로, 세로, 대각선]
+    if home[-1][-1]:
+        print(0)
+        return
     dp = [[[0,0,0] for _ in range(N-1)] for _ in range(N)]
-    # [print(dp[o]) for o in range(N)]
-    # print()
     dp[0][0][0] = 1
+
     for i in range(2, N):
         if not home[0][i]:
             dp[0][i-1][0] += dp[0][i-2][0]
