@@ -11,7 +11,8 @@ const settings = () => {
     return [N, m, n, A, B]
 }
 
-const main = (needs) => (m, n) => (A, B) => {
+// const main = (needs) => (m, n) => (A, B) => {
+const main = (needs, m, n ,A, B) => {
     const candidate = {
         "A" : {},
         "B" : {},
@@ -79,4 +80,5 @@ const main = (needs) => (m, n) => (A, B) => {
 const [N, m, n, A, B] = settings();
 
 
-main(N)(m,n)(A,B);
+// main(N)(m,n)(A,B);
+main(N,m,n,A,B);
