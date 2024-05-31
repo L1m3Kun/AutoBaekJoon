@@ -4,17 +4,18 @@ input = sys.stdin.readline
 
 
 def main():
+    # 입력
     H, W, X, Y = map(int, input().split())
     B = tuple(tuple(map(int, input().split())) for _ in range(H+X))
     A = [[0] * W for _ in range(H)]
 
-    for i in range(H+X):
-        for j in range(W+Y):
-            if 0 <= i < H and 0 <= j < W:
-                A[i][j] += B[i][j]
+    # 탐색
+    for i in range(H):
+        for j in range(W):
+            A[i][j] += B[i][j]
             
-                if 0 <= i-X < H and 0 <= j-Y < W:
-                    A[i][j] -= A[i-X][j-Y]
+            if 0 <= i-X < H and 0 <= j-Y < W:
+                A[i][j] -= A[i-X][j-Y]
             
     
     for i in range(H):
