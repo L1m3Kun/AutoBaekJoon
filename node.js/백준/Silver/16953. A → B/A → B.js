@@ -1,29 +1,25 @@
 const fs =require('fs');
-const [A,B] = fs.readFileSync('/dev/stdin')
+let [A,B] = fs.readFileSync('/dev/stdin')
                 .toString()
                 .trim()
                 .split(' ')
-                .map(Number);
 
-const que = [[A, 0]];
-let head = 0;
 let ans = -1;
-visited = new Set([A]);
-
-while (head < que.length) {
-    const [now, cnt] = que[head];
-    que[head++] = null;
-    
-    if (now === B) {
-        ans = cnt+1;
+let cnt = 1;
+while (Number(A) <= Number(B)){
+    if (A === B) {
+        ans = cnt;
+        break;
+    }else if (B[B.length-1] === '1' && B.length>1){
+        B = B.slice(0, B.length-1);
+        cnt ++;
+    } else if (Number(B) % 2 === 0) {
+        B = (Number(B)>>1).toString();
+        cnt ++;
+    } else {
         break;
     }
     
-    for (let post of [now<<1, now*10+1]) {
-        if (post <= B && !visited.has(post)) {
-            visited.add(post);
-            que.push([post, cnt+1]);
-        }
-    }
 }
+
 console.log(ans);
