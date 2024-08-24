@@ -11,17 +11,16 @@ if (N > K) {
 } else if (N < K) {
     const dp = Array(100001).fill(100001);
     dp[N] = 0;
-    const que = {};
-    let [front, rear] = [0,0];
-    que[rear++] = N;
-    while (front < rear) {
+    const que = [N];
+    let front = 0;
+    while (front < que.length) {
         const edge = que[front];
         que[front++] = null;
         
         for (const node of [edge<<1, edge+1, edge-1]){
-            if (0<= node && node <= 100001 && dp[edge]+1 < dp[node]) {
+            if (0<= node && node < 100001 && dp[edge]+1 < dp[node]) {
                 dp[node] = dp[edge]+1;
-                que[rear++] = node;
+                que.push(node);
             }
         }
     }
