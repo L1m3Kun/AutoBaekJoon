@@ -17,7 +17,7 @@ function solution(board, moves) {
     const height = board.length, width = board[0].length;
     
     const dollIdxArray = setIdxArray(width, height, board);
-    
+    console.log('dollIdxArray=',dollIdxArray);
     moves.forEach(e => {
         const w = e-1;
         const h = dollIdxArray[w];
@@ -31,6 +31,8 @@ function solution(board, moves) {
             }
             dollIdxArray[w] ++;    
         } 
+        console.log('w(move-1)=', w,', h=', h);
+        console.log('dollIdxArray=', dollIdxArray);
     });
     return answer << 1;
 }
