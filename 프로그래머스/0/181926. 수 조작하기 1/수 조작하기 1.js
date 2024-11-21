@@ -1,14 +1,8 @@
-const solution = (n, control) => Array.from(control).reduce((ans, char) => {
-    switch(char) {
-        case 'w':
-            return ans + 1;
-        case 's':
-            return ans - 1;
-        case 'd':
-            return ans + 10;
-        case 'a':
-            return ans - 10;
-        default:
-            return ans;
-    }
-}, n);
+const controler = {
+    'w': (n) => n+1,
+    's': (n) => n-1,
+    'd': (n) => n+10,
+    'a': (n) => n-10,
+};
+
+const solution = (n, control) => Array.from(control).reduce((ans, char) => controler[char](ans), n);
