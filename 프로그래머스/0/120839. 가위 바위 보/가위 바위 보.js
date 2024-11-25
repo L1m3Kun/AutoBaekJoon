@@ -1,0 +1,1 @@
+const solution = (rsp) => Array.from(rsp).reduce((wins, enermy) => enermy === '2'? wins+'0' : enermy === '0' ? wins+'5' : wins+'2', '');
