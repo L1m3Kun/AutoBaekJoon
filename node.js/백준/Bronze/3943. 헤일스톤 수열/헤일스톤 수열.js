@@ -1,7 +1,6 @@
 const fs = require('fs');
 const [T, ...cases] = fs.readFileSync('/dev/stdin').toString().trim().split('\n').map(Number);
 
-const visited= {1:1, 2:2};
 
 const solution = (t) => {
     let curr = t;
@@ -14,8 +13,7 @@ const solution = (t) => {
         }
         maxV = Math.max(maxV, curr);
     }
-    visited[t] =  Math.max(maxV, curr);
-    return visited[t];
+    return Math.max(maxV, curr);
 }
 
 const ans = cases.map(t => solution(t));
