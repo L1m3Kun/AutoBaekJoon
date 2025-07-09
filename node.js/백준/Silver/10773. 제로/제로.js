@@ -1,12 +1,9 @@
 const fs = require('fs');
 const input = fs.readFileSync('/dev/stdin').toString().trim().split('\n').map(Number);
-const [_, ans] = input.slice(1).reduce(([stack, sum], num) => {
-    if(num) {
-        stack.push(num);
-        sum += num;
-    }
-    else sum -= stack.pop();
-    return [stack, sum]
-}, [[], 0]);
-
+const stack = input.slice(1).reduce((stack, num) => {
+    if (num) stack.push(num);
+    else stack.pop();
+    return stack;
+}, []);
+const ans = stack.reduce((acc, cur) => cur+acc, 0);
 console.log(ans);
