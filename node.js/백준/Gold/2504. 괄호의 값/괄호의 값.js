@@ -7,6 +7,7 @@ const brackets = {
 };
 const stack = [];
 let ans = 0;
+     
 Array.from(input).some((b)=>{
     if (brackets[b] <= 2) stack.push([brackets[b], 0]);
     else {
@@ -20,11 +21,17 @@ Array.from(input).some((b)=>{
             ans = 0;
             return true;
         }
+        
+        let cand =  type & 1 ? 2: 3;
+        if (prefix > 0) {
+            cand *= prefix
+        }
+        
         if (stack.length > 0) {
             const [_, num] = stack.pop();
-            stack.push([_, num + (prefix ? prefix * (type & 1 ? 2 : 3) : type & 1 ? 2 : 3)]);
+            stack.push([_, num + cand]);
         } else {
-            ans += prefix ? prefix * (type & 1 ? 2 : 3) : type & 1 ? 2 : 3;
+            ans += cand;
         }
     }
     return false;
