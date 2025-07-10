@@ -1,27 +1,25 @@
 const fs = require('fs');
 const input = fs.readFileSync('/dev/stdin').toString().trim().split('\n');
-let ans = '';
-const stack = [];
-input.slice(1).forEach((e) => {
-    const [order, num] = e.split(' ');
+const answer = input.slice(1).reduce(([ans, stack], condition) => {
+    const [order, element] = condition.split(' ');
     switch(order) {
-        case 'push':
-            stack.push(num);
+        case "push":
+            stack.push(Number(element));
             break;
-        case 'pop':
-            ans += stack.length > 0 ? `${stack.pop()}\n` : '-1\n';
+        case "pop":
+            ans.push(stack.pop() || -1);
             break;
-        case 'size':
-            ans += `${stack.length}\n`;
+        case "size":
+            ans.push(stack.length);
             break;
-        case 'empty':
-            ans += stack.length > 0 ? '0\n' : '1\n';
+        case "empty":
+            ans.push(!stack.length ? 1:0);
             break;
-        default:
-            ans += stack.length > 0 ? `${stack[stack.length-1]}\n` : '-1\n';
+        case "top":
+            ans.push(stack[stack.length-1] || -1);
             break;
     }
-})
-console.log(ans);
+    return [ans, stack];
+}, [[], []]);
 
-
+console.log(answer[0].join('\n'));
