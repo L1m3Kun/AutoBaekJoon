@@ -1,10 +1,6 @@
-const N = Number(require('fs').readFileSync('/dev/stdin').toString().trim());
-
-const arr = Array.from({length: N}, (_,i) => i+1);
-let head = 0;
-while (head < arr.length-1) {
-    arr[head++] = null
-    arr.push(arr[head]);
-    arr[head++] = null
+const input = Number(require('fs').readFileSync('/dev/stdin').toString().trim());
+let ans = 1;
+while (input > ans){
+    ans <<= 1;
 }
-console.log(arr[head]);
+console.log((input << 1) - ans);
