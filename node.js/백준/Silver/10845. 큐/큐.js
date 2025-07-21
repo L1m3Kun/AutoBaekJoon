@@ -1,34 +1,65 @@
 const fs = require('fs');
-const input = fs.readFileSync('/dev/stdin').toString().trim().split('\n');
+const inputs = fs.readFileSync('/dev/stdin').toString().trim().split('\n');
 
-let ans = '';
-const que = {}
-let [front, rear] = [-1, -1];
+class Queue {
+    constructor(maxLength){
+        this.queue = Array(maxLength).fill(-1);
+        this.head = 0;
+        this.rear = 0;
+    }
+    
+    push(item) {
+        this.queue[this.rear++] = item;
+    }
+    
+    pop(){
+        if (this.empty()) return -1;
+        const poped = this.queue[this.head];
+        this.queue[this.head++] = null;
+        return poped;
+    }
+    
+    size(){
+        return this.rear - this.head;
+    }
+    
+    empty(){
+        return +(this.rear === this.head);
+    }
+        
+    front(){
+        if (this.empty()) return -1;
+        return this.queue[this.head];
+    }
+        
+    back(){
+        if (this.empty()) return -1;
+        return this.queue[this.rear - 1];
+    }
+}
 
-input.slice(1).forEach((e) => {
-    const [order, num] = e.split(' ');
+const queue = new Queue(Number(inputs[0]));
+const ans = inputs.slice(1).reduce((ans, input) => {
+    const [order, item] = input.split(" ");
     switch(order) {
-        case 'push':
-            que[++rear] = num;
+        case "pop":
+            ans.push(queue.pop());
             break;
-        case 'pop':
-            if (front === rear) {
-                ans += '-1\n';
-            } else{
-                ans += `${que[++front]}\n`;
-            }
+        case "size":
+            ans.push(queue.size());
             break;
-        case 'size':
-            ans += `${rear-front}\n`;
+        case "empty":
+            ans.push(queue.empty());
             break;
-        case 'empty':
-            ans += front === rear ? '1\n' : '0\n';
+        case "front":
+            ans.push(queue.front());
             break;
-        case 'front':
-            ans += front === rear ? '-1\n': `${que[front+1]}\n`;
+        case "back":
+            ans.push(queue.back());
             break;
         default:
-            ans += front === rear ? '-1\n': `${que[rear]}\n`;
+            queue.push(item);
     }
-});
-console.log(ans);
+    return ans;
+}, []);
+console.log(ans.join("\n"));
