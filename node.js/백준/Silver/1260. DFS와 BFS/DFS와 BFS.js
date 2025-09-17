@@ -1,69 +1,50 @@
 const fs = require("fs");
+const inputs = fs.readFileSync("/dev/stdin").toString().trim().split("\n");
+const [n, m, v] = inputs[0].split(" ").map(Number);
+const tree = inputs.slice(1).reduce(
+  (tree, input) => {
+    const [l, r] = input.split(" ").map(Number);
+    tree[l].push(r);
+    tree[r].push(l);
+    return tree;
+  },
+  Array.from({ length: n + 1 }, () => [])
+);
 
-const settings = () => {
-    // const input = fs.readFileSync("input.txt").toString().trim().split("\n");
-    const input = fs.readFileSync("/dev/stdin").toString().trim().split("\n");
-    const [N, M, V] = input[0].split(" ").map(Number);
-    const graph = [];
-    for (let i =0;i<=N;i++){
-        graph.push([]);
+const bfs = (start) => {
+  const queue = [start];
+  let head = 0;
+  const ans = [start];
+  const visited = Array.from({ length: n + 1 }, () => 0);
+  visited[start] = 1;
+  while (head < queue.length) {
+    const node = queue[head];
+    queue[head++];
+    for (const next of tree[node].sort((a, b) => a - b)) {
+      if (visited[next]) continue;
+      visited[next]++;
+      queue.push(next);
+      ans.push(next);
     }
-    input.slice(1,).forEach(e => {
-        const [start,end] = e.split(" ").map(Number);
-        graph[start].push(end);
-        graph[end].push(start);
-    })
-    // console.log(graph)
-    return [N, V,graph];
-}
-
-const main = (N, start, graph) => {
-    const dfs = (start) => {
-        const visited = Array(N+1).fill(0);
-        const answer = [];
-        const stack = [start];
-        // visited[start] = 1;
-        while (stack.length > 0) {
-            // console.log(stack);
-            const spot = stack.pop();
-            if (visited[spot]) continue;
-            visited[spot] = 1
-            answer.push(spot);
-            graph[spot].sort((a,b) => b-a);
-            for (let node of graph[spot]) {
-                // if (!visited[node]){
-                    // visited[node] = 1;
-                stack.push(node);
-                // }
-            }
-        }
-        console.log(...answer);
+  }
+  return ans.join(" ");
+};
+const dfs = (start) => {
+  const stack = [start];
+  const ans = [];
+  const visited = Array.from({ length: n + 1 }, () => 0);
+  while (stack.length > 0) {
+    const node = stack.pop();
+    if (visited[node]) continue;
+    visited[node]++;
+    ans.push(node);
+    for (const next of tree[node].sort((a, b) => b - a)) {
+      if (visited[next]) continue;
+      stack.push(next);
     }
+  }
+  return ans.join(" ");
+};
 
-    const bfs = (start) => {
-        const visited = Array(N+1).fill(0);
-        const answer = [];
-        const queue = {};
-        let [front, rear] = [0, 0];
-        queue[rear++] = start;
-        visited[start] = 1;
-        while (rear - front > 0) {
-            const spot = queue[front++];
-            answer.push(spot);
-            graph[spot].sort((a,b) => a-b);
-            for (let node of graph[spot]) {
-                if (!visited[node]) {
-                    visited[node] = 1;
-                    queue[rear++] = node;
-                }
-            }
-        }
-        console.log(...answer);
-    }
-
-    dfs(start);
-    bfs(start);
-}
-
-const [N ,start, graph] = settings();
-main(N, start, graph);
+const ans = [dfs(v), bfs(v)];
+console.log(ans.join("\n"));
