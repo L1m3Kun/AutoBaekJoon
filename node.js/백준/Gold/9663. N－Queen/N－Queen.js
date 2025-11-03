@@ -1,25 +1,33 @@
-const n = Number(require('fs').readFileSync('/dev/stdin').toString().trim());
+const fs = require('fs');
+const n = Number(
+    fs.readFileSync('/dev/stdin')
+    .toString()
+    .trim()
+);
 
-var cnt = 0;
+const leftCross = Array(n<<1 - 1).fill(0);
+const rightCross = Array(n<<1 - 1).fill(0);
 const col = Array(n).fill(0);
-const di = Array(n<<1 -1).fill(0);
-const dj = Array(n<<1 -1).fill(0);
-const bt = (start, end) => {
-    if (start === end) {
-        cnt ++;
+
+let num = 0;
+const bt = (s, e) => {
+    if (s === e) {
+        num ++;
         return;
     }
-    for (let j = 0; j < end ; j++){
-        if (!col[j] && !di[start+j] && !dj[end-j+start-1]){
-            col[j] = 1;
-            di[start+j] = 1;
-            dj[end-1+start-j] = 1;
-            bt(start+1, end);
-            col[j] = 0;
-            di[start+j] = 0;
-            dj[end-1+start-j] = 0;
-        }
+    
+    for (let i = 0; i < e; i++){
+        if (col[i] || leftCross[s+i] || rightCross[e-i+s-1]) continue;
+        col[i] = 1;
+        leftCross[s+i] = 1;
+        rightCross[e-i+s-1] = 1;
+        bt(s+1, e);
+        col[i] = 0;
+        leftCross[s+i] = 0;
+        rightCross[e-i+s-1] = 0;
     }
+    
 }
+    
 bt(0, n);
-console.log(cnt);
+console.log(num);
