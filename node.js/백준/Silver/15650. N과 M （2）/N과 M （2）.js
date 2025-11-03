@@ -1,23 +1,31 @@
 const fs = require('fs');
-const [N, M] = fs.readFileSync('/dev/stdin').toString().trim().split(' ').map(Number);
+const [n,m] = fs.readFileSync('/dev/stdin')
+                .toString()
+                .trim()
+                .split(" ")
+                .map(Number);
+const str = [];
+const visited = Array.from({length: n+1}, ()=>0);
 const ans = [];
-
-const bf = (start) => {
-    const que = [start.toString()];
-    let head = 0;
-    while (head < que.length) {
-        const edge = que[head];
-        que[head++] = null;
-        if (edge.length >= M){
-            ans.push(edge.split('').join(' '));
-            continue;
-        }
-        for (let i = Number(edge[edge.length-1])+1; i <= N; i++) {
-            que.push(edge+i.toString());
-        }
+const bt = (start) => {
+    if (str.length === m) {
+        ans.push(str.join(" "));
+        return;
+    }
+    for (let i = start+1; i <= n; i++){
+        if (visited[i]) continue;
+        visited[i] = 1;
+        str.push(i);
+        bt(i);
+        str.pop(i);
+        visited[i] = 0;
     }
 }
-for (let s = 1; s <= N ; s++ ){
-    bf(s);
+
+for (let i = 1; i <= n; i++){
+    visited[i] = 1;
+    str.push(i);
+    bt(i);
+    str.pop(i);
 }
-console.log(ans.join('\n'));
+console.log(ans.join("\n"));
