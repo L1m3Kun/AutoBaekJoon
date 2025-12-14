@@ -10,9 +10,9 @@ const bubbleSort = (arr) => {
     for (let last = N-1; last > 0; last --){
         for (let i = 0; i < last; i++){
             if (arr[i] > arr[i+1]) {
-                [arr[i], arr[i+1]] = [arr[i+1], arr[i]];
                 k ++;
-                if (k === K) return [arr[i], arr[i+1]].join(" ");
+                if (k === K) return [arr[i+1], arr[i]].join(" ");
+                [arr[i], arr[i+1]] = [arr[i+1], arr[i]];
             }
         }
     }
